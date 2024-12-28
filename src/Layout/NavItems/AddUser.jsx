@@ -10,7 +10,7 @@ const AddUser = () => {
     pseudo: "",
     MotDePasse: "",
     confirmMotDePasse: "",
-    couleur: "#000000", // Default color
+    couleur: "#000000",
     admin: false,
   });
 
@@ -21,7 +21,7 @@ const AddUser = () => {
     confirmMotDePasse: false,
   });
 
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     if (
       !userData.nom ||
       !userData.prenom ||
@@ -48,33 +48,32 @@ const AddUser = () => {
       return;
     }
 
-    try {
-      await axios.post(
-        "https://6761885646efb37323720ccc.mockapi.io/loginStagaires",
-        userData
-      );
-      setMessage("");
-      setIsSuccessModalOpen(true);
-      setUserData({
-        nom: "",
-        prenom: "",
-        age: "",
-        email: "",
-        pseudo: "",
-        MotDePasse: "",
-        confirmMotDePasse: "",
-        couleur: "#000000",
-        admin: false,
+    axios
+      .post("https://6761885646efb37323720ccc.mockapi.io/loginStagaires", userData)
+      .then(() => {
+        setMessage("");
+        setIsSuccessModalOpen(true);
+        setUserData({
+          nom: "",
+          prenom: "",
+          age: "",
+          email: "",
+          pseudo: "",
+          MotDePasse: "",
+          confirmMotDePasse: "",
+          couleur: "#000000",
+          admin: false,
+        });
+      })
+      .catch((error) => {
+        setMessage(
+          error.response
+            ? `Erreur ${error.response.status}: ${
+                error.response.data?.message || "Une erreur est survenue."
+              }`
+            : "Le serveur ne répond pas. Veuillez réessayer plus tard."
+        );
       });
-    } catch (error) {
-      setMessage(
-        error.response
-          ? `Erreur ${error.response.status}: ${
-              error.response.data?.message || "Une erreur est survenue."
-            }`
-          : "Le serveur ne répond pas. Veuillez réessayer plus tard."
-      );
-    }
   };
 
   return (
@@ -260,84 +259,34 @@ const AddUser = () => {
         </form>
         {message && <p className="text-danger mt-3">{message}</p>}
       </div>
-
-      {/* Success Modal */}
       {isSuccessModalOpen && (
-  <div
-    className="modal show d-block"
-    tabIndex="-1"
-    style={{
-      backgroundColor: "rgba(0, 0, 0, 0.5)", // Assombrir l'arrière-plan
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-    }}
-  >
-    <div className="modal-dialog modal-dialog-centered">
-      <div
-        className="modal-content"
-        style={{
-          border: "none",
-          borderRadius: "10px",
-          boxShadow: "0px 4px 15px rgba(0, 0, 0, 0.2)",
-        }}
-      >
-        <div
-          className="modal-header"
-          style={{
-            backgroundColor: "#003366", // Bleu marine
-            color: "white", // Texte blanc
-            borderTopLeftRadius: "10px",
-            borderTopRightRadius: "10px",
-          }}
-        >
-          <h5 className="modal-title">
-            <i className="bi bi-check-circle me-2"></i> Succès
-          </h5>
-          <button
-            type="button"
-            className="btn-close btn-close-white"
-            onClick={() => setIsSuccessModalOpen(false)}
-          ></button>
+        <div className="modal show d-block">
+          <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">Succès</h5>
+                <button
+                  type="button"
+                  className="btn-close"
+                  onClick={() => setIsSuccessModalOpen(false)}
+                ></button>
+              </div>
+              <div className="modal-body">
+                <p>Utilisateur ajouté avec succès !</p>
+              </div>
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={() => setIsSuccessModalOpen(false)}
+                >
+                  Fermer
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
-        <div
-          className="modal-body text-center"
-          style={{
-            padding: "20px",
-            backgroundColor: "#f9f9f9", // Fond gris clair
-          }}
-        >
-          <p className="fs-5 mb-0" style={{ color: "#333" }}> {/* Gris foncé */}
-            Utilisateur ajouté avec succès !
-          </p>
-        </div>
-        <div
-          className="modal-footer"
-          style={{
-            backgroundColor: "#f9f9f9", // Fond gris clair
-            borderBottomLeftRadius: "10px",
-            borderBottomRightRadius: "10px",
-          }}
-        >
-          <button
-            type="button"
-            className="btn"
-            style={{
-              backgroundColor: "#003366", // Bouton bleu marine
-              color: "white",
-              padding: "8px 20px",
-              borderRadius: "5px",
-            }}
-            onClick={() => setIsSuccessModalOpen(false)}
-          >
-            Fermer
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-)}
-
+      )}
     </div>
   );
 };

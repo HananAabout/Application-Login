@@ -16,85 +16,88 @@ const Request = () => {
     }
   }, []);
 
-  const fetchRequests = async () => {
-    try {
-      const url = user.admin
-        ? "https://6761885646efb37323720ccc.mockapi.io/loginStagaires" // Récupérer toutes les demandes pour les admins
-        : `https://6761885646efb37323720ccc.mockapi.io/loginStagaires/${user.id}`; // Récupérer les demandes d'un utilisateur spécifique
-      const response = await axios.get(url);
+  const fetchRequests = () => {
+    const url = user.admin
+      ? "https://6761885646efb37323720ccc.mockapi.io/loginStagaires"
+      : `https://6761885646efb37323720ccc.mockapi.io/loginStagaires/${user.id}`;
 
-      const result = user.admin
-        ? response.data.flatMap((userData) =>
-            userData.request.map((req) => ({ ...req, userId: userData.id }))
-          )
-        : response.data.request;
-
-      setRequests(result || []);
-    } catch (err) {
-      console.error("Erreur lors de la récupération des demandes :", err);
-    }
+    axios
+      .get(url)
+      .then((response) => {
+        const result = user.admin
+          ? response.data.flatMap((userData) =>
+              userData.request.map((req) => ({ ...req, userId: userData.id }))
+            )
+          : response.data.request;
+        setRequests(result || []);
+      })
+      .catch((err) => {
+        console.error("Erreur lors de la récupération des demandes :", err);
+      });
   };
 
-  const handleAddRequest = async (e) => {
+  const handleAddRequest = (e) => {
     e.preventDefault();
     if (!title || !description) {
       setError("Le titre et la description sont obligatoires !");
       return;
     }
 
-    try {
-      const response = await axios.get(
-        `https://6761885646efb37323720ccc.mockapi.io/loginStagaires/${user.id}`
-      );
-      const userData = response.data;
+    axios
+      .get(`https://6761885646efb37323720ccc.mockapi.io/loginStagaires/${user.id}`)
+      .then((response) => {
+        const userData = response.data;
+        const updatedRequests = [
+          ...userData.request,
+          {
+            title,
+            description,
+            status: "pending",
+            id: Date.now(),
+          },
+        ];
 
-      const updatedRequests = [
-        ...userData.request,
-        {
-          title,
-          description,
-          status: "pending",
-          id: Date.now(),
-        },
-      ];
-
-      await axios.put(
-        `https://6761885646efb37323720ccc.mockapi.io/loginStagaires/${user.id}`,
-        { ...userData, request: updatedRequests }
-      );
-
-      alert("Demande ajoutée avec succès !");
-      setTitle("");
-      setDescription("");
-      setError("");
-      fetchRequests();
-    } catch (err) {
-      console.error("Erreur lors de l'ajout de la demande :", err);
-      setError("Une erreur s'est produite. Veuillez réessayer.");
-    }
+        return axios.put(
+          `https://6761885646efb37323720ccc.mockapi.io/loginStagaires/${user.id}`,
+          { ...userData, request: updatedRequests }
+        );
+      })
+      .then(() => {
+        alert("Demande ajoutée avec succès !");
+        setTitle("");
+        setDescription("");
+        setError("");
+        fetchRequests();
+      })
+      .catch((err) => {
+        console.error("Erreur lors de l'ajout de la demande :", err);
+        setError("Une erreur s'est produite. Veuillez réessayer.");
+      });
   };
 
-  const handleStatusUpdate = async (reqId, status, userId) => {
-    try {
-      const response = await axios.get(
-        `https://6761885646efb37323720ccc.mockapi.io/loginStagaires/${userId}`
-      );
-      const userData = response.data;
+  const handleStatusUpdate = (reqId, status, userId) => {
+    axios
+      .get(`https://6761885646efb37323720ccc.mockapi.io/loginStagaires/${userId}`)
+      .then((response) => {
+        const userData = response.data;
+        const updatedRequests = userData.request.map((req) =>
+          req.id === reqId ? { ...req, status } : req
+        );
 
-      const updatedRequests = userData.request.map((req) =>
-        req.id === reqId ? { ...req, status } : req
-      );
-
-      await axios.put(
-        `https://6761885646efb37323720ccc.mockapi.io/loginStagaires/${userId}`,
-        { ...userData, request: updatedRequests }
-      );
-
-      alert(`Demande ${status === "approved" ? "acceptée" : "rejetée"} avec succès !`);
-      fetchRequests();
-    } catch (err) {
-      console.error("Erreur lors de la mise à jour du statut :", err);
-    }
+        return axios.put(
+          `https://6761885646efb37323720ccc.mockapi.io/loginStagaires/${userId}`,
+          { ...userData, request: updatedRequests }
+        );
+      })
+      .then(() => {
+        alert(
+          `Demande ${status === "approved" ? "acceptée" : "rejetée"} avec succès !`
+        );
+        fetchRequests();
+      })
+      .catch((err) => {
+        console.error("Erreur lors de la mise à jour du statut :", err);
+      });
   };
 
   return (
@@ -115,21 +118,33 @@ const Request = () => {
                     <p className="mb-1">{req.description}</p>
                     <small>Utilisateur ID : {req.userId}</small>
                     <br />
-                    <span className={`badge bg-${req.status === "pending" ? "warning" : req.status === "approved" ? "success" : "danger"}`}>
-                      {req.status === "pending" ? "En attente" : req.status === "approved" ? "Acceptée" : "Rejetée"}
+                    <span
+                      className={`badge bg-$
+                        {req.status === "pending" ? "warning" :
+                        req.status === "approved" ? "success" : "danger"}`}
+                    >
+                      {req.status === "pending"
+                        ? "En attente"
+                        : req.status === "approved"
+                        ? "Acceptée"
+                        : "Rejetée"}
                     </span>
                   </div>
                   {req.status === "pending" && (
                     <div>
                       <button
                         className="btn btn-success btn-sm me-2"
-                        onClick={() => handleStatusUpdate(req.id, "approved", req.userId)}
+                        onClick={() =>
+                          handleStatusUpdate(req.id, "approved", req.userId)
+                        }
                       >
                         Accepter
                       </button>
                       <button
                         className="btn btn-danger btn-sm"
-                        onClick={() => handleStatusUpdate(req.id, "rejected", req.userId)}
+                        onClick={() =>
+                          handleStatusUpdate(req.id, "rejected", req.userId)
+                        }
                       >
                         Rejeter
                       </button>
@@ -190,7 +205,10 @@ const Request = () => {
                   <div>
                     <h5>{req.title}</h5>
                     <p className="mb-1">{req.description}</p>
-                    <span className={`badge bg-${req.status === "pending" ? "warning" : "success"}`}>
+                    <span
+                      className={`badge bg-$
+                        {req.status === "pending" ? "warning" : "success"}`}
+                    >
                       {req.status === "pending" ? "En attente" : "Acceptée"}
                     </span>
                   </div>

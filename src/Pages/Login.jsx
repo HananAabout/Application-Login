@@ -11,28 +11,27 @@ const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleLogin = async () => {
+  const handleLogin = () => {
     if (attempts >= 3) return;
-
-    try {
-      const response = await axios.get(
-        "https://6761885646efb37323720ccc.mockapi.io/loginStagaires"
-      );
-      const user = response.data.find(
-        (u) =>
-          u.pseudo === credentials.pseudo &&
-          u.MotDePasse === credentials.password
-      );
-      if (user) {
-        dispatch(loginUser(user));
-        navigate("/layout");
-      } else {
-        setErrors([...errors, "Invalid credentials"]);
-        setAttempts(attempts + 1);
-      }
-    } catch (errors) {
-      setErrors([...errors, "Erreur au cours de la connexion"]);
-    }
+    axios
+      .get("https://6761885646efb37323720ccc.mockapi.io/loginStagaires")
+      .then((response) => {
+        const user = response.data.find(
+          (u) =>
+            u.pseudo === credentials.pseudo &&
+            u.MotDePasse === credentials.password
+        );
+        if (user) {
+          dispatch(loginUser(user));
+          navigate("/layout");
+        } else {
+          setErrors([...errors, "Invalid credentials"]);
+          setAttempts(attempts + 1);
+        }
+      })
+      .catch((errors) => {
+        setErrors([...errors, "Erreur au cours de la connexion"]);
+      });
   };
 
   return (

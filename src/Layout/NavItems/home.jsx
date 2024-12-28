@@ -1,9 +1,7 @@
 import { useSelector } from "react-redux";
 import "bootstrap/dist/css/bootstrap.min.css";
-
 const Home = () => {
   const user = useSelector((state) => state.user);
-
   return (
     <div className="home container py-5">
       <div className="row justify-content-center">

@@ -4,29 +4,28 @@ import axios from "axios";
 const Admin = () => {
   const [requests, setRequests] = useState([]);
 
-  // Récupérer toutes les demandes
-  const fetchRequests = async () => {
-    try {
-      const response = await axios.get(
-        `https://6761885646efb37323720ccc.mockapi.io/loginStagaires`
-      );
-      setRequests(response.data);
-    } catch (err) {
-      console.error("Erreur lors de la récupération des demandes :", err);
-    }
+  const fetchRequests = () => {
+    axios
+      .get(`https://6761885646efb37323720ccc.mockapi.io/loginStagaires`)
+      .then((response) => {
+        setRequests(response.data);
+      })
+      .catch((err) => {
+        console.error("Erreur lors de la récupération des demandes :", err);
+      });
   };
 
-  // Modifier le statut d'une demande
-  const handleUpdateStatus = async (id, status) => {
-    try {
-      await axios.put(
-        `https://6761885646efb37323720ccc.mockapi.io/loginStagaires/${id}`,
-        { status }
-      );
-      fetchRequests();
-    } catch (err) {
-      console.error("Erreur lors de la mise à jour du statut :", err);
-    }
+  const handleUpdateStatus = (id, status) => {
+    axios
+      .put(`https://6761885646efb37323720ccc.mockapi.io/loginStagaires/${id}`, {
+        status,
+      })
+      .then(() => {
+        fetchRequests();
+      })
+      .catch((err) => {
+        console.error("Erreur lors de la mise à jour du statut :", err);
+      });
   };
 
   useEffect(() => {

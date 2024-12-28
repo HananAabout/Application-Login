@@ -21,7 +21,7 @@ const CreateCompte = () => {
 
   const navigate = useNavigate();
 
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     if (formData.MotDePasse !== formData.confirmMotDePasse) {
       alert("Les mots de passe ne correspondent pas.");
       return;
@@ -35,18 +35,19 @@ const CreateCompte = () => {
       );
       return;
     }
-
-    try {
-      await axios.post(
+    axios
+      .post(
         "https://6761885646efb37323720ccc.mockapi.io/loginStagaires",
         formData
-      );
-      alert("Compte créé avec succès !");
-      navigate("/"); // Redirection vers la page de login
-    } catch (error) {
-      console.error("Erreur lors de la création du compte :", error);
-      alert(`Erreur lors de la création du compte : ${error.message}`);
-    }
+      )
+      .then(() => {
+        alert("Compte créé avec succès !");
+        navigate("/");
+      })
+      .catch((error) => {
+        console.error("Erreur lors de la création du compte :", error);
+        alert(`Erreur lors de la création du compte : ${error.message}`);
+      });
   };
 
   return (

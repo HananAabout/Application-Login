@@ -37,8 +37,6 @@ const NavbarIndex = () => {
                 Modifier Couleur
               </NavLink>
             </li>
-
-            {/* Condition : Afficher Ajouter une demande si l'utilisateur n'est pas admin */}
             {!user?.admin && (
               <li className="nav-item">
                 <NavLink to="/layout/request" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
@@ -46,8 +44,6 @@ const NavbarIndex = () => {
                 </NavLink>
               </li>
             )}
-
-            {/* Condition : Afficher Voir les demandes si l'utilisateur est admin */}
             {user?.admin && (
               <li className="nav-item">
                 <NavLink to="/layout/request" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
@@ -55,8 +51,6 @@ const NavbarIndex = () => {
                 </NavLink>
               </li>
             )}
-
-            {/* Liens supplémentaires uniquement visibles pour les administrateurs */}
             {user?.admin && (
               <>
                 <li className="nav-item">

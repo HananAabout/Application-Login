@@ -31,7 +31,7 @@ const HeaderSection = () => {
         {user ? (
           <>
             <img
-              src={user.photo || "/path-to-default-avatar.png"} // Affiche une image par défaut si aucune photo
+              src={user.photo || "/path-to-default-avatar.png"} 
               alt="Photo utilisateur"
               className="rounded-circle me-2"
               style={{ width: "40px", height: "40px", objectFit: "cover" }}

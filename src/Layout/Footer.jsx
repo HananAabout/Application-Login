@@ -1,9 +1,7 @@
 import { useSelector } from 'react-redux';
 import { FaFacebook, FaInstagram } from 'react-icons/fa';
-
 const FooterSection = () => {
   const couleur = useSelector((state) => state.color);
-
   return (
     <footer className="text-center text-white py-3" style={{ backgroundColor: couleur }}>
       <p className="mb-1">Instituts Spécialisés de Technologie Appliquée, Hay Salam, Salé</p>
@@ -28,5 +26,4 @@ const FooterSection = () => {
     </footer>
   );
 };
-
 export default FooterSection;

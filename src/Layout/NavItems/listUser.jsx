@@ -1,18 +1,15 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-
 const ListeUtilisateurs = () => {
   const [users, setUsers] = useState([]);
-  const [editUserId, setEditUserId] = useState(null); // ID de l'utilisateur en cours d'édition
+  const [editUserId, setEditUserId] = useState(null);
   const [editUserData, setEditUserData] = useState({
     nom: "",
     prenom: "",
     age: "",
     pays: "",
     email: "",
-  }); // Données de l'utilisateur à modifier
-
-  // Liste des pays
+  });
   const paysOptions = [
     "France",
     "Canada",
@@ -32,8 +29,6 @@ const ListeUtilisateurs = () => {
       .then((response) => setUsers(response.data))
       .catch((error) => console.error("Error fetching users:", error));
   }, []);
-
-  // Supprimer un utilisateur
   const handleDelete = (userId) => {
     axios
       .delete(`https://6761885646efb37323720ccc.mockapi.io/loginStagaires/${userId}`)
@@ -42,20 +37,16 @@ const ListeUtilisateurs = () => {
       })
       .catch((error) => console.error("Error deleting user:", error));
   };
-
-  // Activer le mode édition pour un utilisateur
   const handleEdit = (user) => {
-    setEditUserId(user.id); // Définit l'ID de l'utilisateur en cours d'édition
+    setEditUserId(user.id);
     setEditUserData({
       nom: user.nom,
       prenom: user.prenom,
       age: user.age,
       pays: user.pays,
       email: user.email,
-    }); // Préfille les données de l'utilisateur
+    });
   };
-
-  // Mettre à jour l'utilisateur
   const handleUpdate = () => {
     axios
       .put(`https://6761885646efb37323720ccc.mockapi.io/loginStagaires/${editUserId}`, editUserData)
@@ -65,18 +56,17 @@ const ListeUtilisateurs = () => {
             user.id === editUserId ? response.data : user
           )
         );
-        setEditUserId(null); // Quitte le mode édition
+        setEditUserId(null);
         setEditUserData({
           nom: "",
           prenom: "",
           age: "",
           pays: "",
           email: "",
-        }); // Réinitialise les données
+        });
       })
       .catch((error) => console.error("Error updating user:", error));
   };
-
   return (
     <div className="container py-5">
       <h1 className="text-center mb-4">Liste des Utilisateurs</h1>
@@ -210,5 +200,4 @@ const ListeUtilisateurs = () => {
     </div>
   );
 };
-
 export default ListeUtilisateurs;
