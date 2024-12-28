@@ -25,8 +25,7 @@ const Login = () => {
       );
       if (user) {
         dispatch(loginUser(user));
-        // alert("Login successful!");
-        navigate("/layout"); // Redirection vers la page d'accueil
+        navigate("/layout");
       } else {
         setErrors([...errors, "Invalid credentials"]);
         setAttempts(attempts + 1);
@@ -39,21 +38,34 @@ const Login = () => {
   return (
     <div
       className="d-flex justify-content-center align-items-center vh-100"
-      style={{ backgroundColor: "#8BC34A" }}
+      style={{
+        background: "linear-gradient(135deg, #6AB7FF, #0088CC)",
+        fontFamily: "Arial, sans-serif",
+      }}
     >
       <div
-        className="card p-4"
+        className="card p-5"
         style={{
           width: "400px",
-          borderRadius: "10px",
+          borderRadius: "15px",
           backgroundColor: "#FFFFFF",
-          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+          boxShadow: "0 8px 20px rgba(0, 0, 0, 0.2)",
         }}
       >
         <div className="text-center mb-4">
-          <h1 className="h4 mb-3" style={{ color: "#4CAF50" }}>
-            Login
+          <h1
+            className="h4"
+            style={{
+              color: "#0088CC",
+              fontWeight: "bold",
+              letterSpacing: "1px",
+            }}
+          >
+            Welcome Back!
           </h1>
+          <p style={{ color: "#666", fontSize: "0.9rem" }}>
+            Please enter your credentials to log in.
+          </p>
         </div>
         <div className="mb-4">
           <input
@@ -64,7 +76,13 @@ const Login = () => {
               setCredentials({ ...credentials, pseudo: e.target.value })
             }
             className="form-control"
-            style={{ height: "50px", fontSize: "1rem", borderRadius: "8px" }}
+            style={{
+              height: "50px",
+              fontSize: "1rem",
+              borderRadius: "10px",
+              border: "1px solid #DDD",
+              padding: "10px",
+            }}
           />
         </div>
         <div className="mb-4">
@@ -76,16 +94,28 @@ const Login = () => {
               setCredentials({ ...credentials, password: e.target.value })
             }
             className="form-control"
-            style={{ height: "50px", fontSize: "1rem", borderRadius: "8px" }}
+            style={{
+              height: "50px",
+              fontSize: "1rem",
+              borderRadius: "10px",
+              border: "1px solid #DDD",
+              padding: "10px",
+            }}
           />
         </div>
         <button
           onClick={handleLogin}
           disabled={attempts >= 3}
-          className={`btn btn-block ${
-            attempts >= 3 ? "btn-secondary" : "btn-success"
+          className={`btn w-100 ${
+            attempts >= 3 ? "btn-secondary" : "btn-primary"
           }`}
-          style={{ height: "50px", fontSize: "1rem", borderRadius: "8px" }}
+          style={{
+            height: "50px",
+            fontSize: "1rem",
+            borderRadius: "10px",
+            background: attempts >= 3 ? "#CCC" : "#0088CC",
+            border: "none",
+          }}
         >
           LOGIN
         </button>
@@ -97,12 +127,16 @@ const Login = () => {
           </ul>
         )}
         <div className="text-center mt-4">
-          <p style={{ color: "#9E9E9E", fontSize: "0.9rem" }}>
+          <p style={{ color: "#999", fontSize: "0.85rem" }}>
             Not registered?{" "}
             <a
               href="#"
               onClick={() => navigate("/create-account")}
-              style={{ color: "#4CAF50", textDecoration: "none" }}
+              style={{
+                color: "#0088CC",
+                textDecoration: "none",
+                fontWeight: "bold",
+              }}
             >
               Create an account
             </a>

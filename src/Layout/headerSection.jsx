@@ -24,7 +24,7 @@ const HeaderSection = () => {
           src={logo}
           alt="Logo"
           className="img-fluid"
-          style={{ height: "50px" ,width:"50px" }}
+          style={{ height: "70px" ,width:"70px" }}
         />
       </div>
       <div className="d-flex align-items-center">

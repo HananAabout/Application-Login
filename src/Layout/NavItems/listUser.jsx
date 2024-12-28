@@ -4,7 +4,27 @@ import axios from "axios";
 const ListeUtilisateurs = () => {
   const [users, setUsers] = useState([]);
   const [editUserId, setEditUserId] = useState(null); // ID de l'utilisateur en cours d'édition
-  const [editUserData, setEditUserData] = useState({ nom: "", prenom: "" }); // Données de l'utilisateur à modifier
+  const [editUserData, setEditUserData] = useState({
+    nom: "",
+    prenom: "",
+    age: "",
+    pays: "",
+    email: "",
+  }); // Données de l'utilisateur à modifier
+
+  // Liste des pays
+  const paysOptions = [
+    "France",
+    "Canada",
+    "États-Unis",
+    "Maroc",
+    "Tunisie",
+    "Algérie",
+    "Italie",
+    "Espagne",
+    "Allemagne",
+    "Royaume-Uni",
+  ];
 
   useEffect(() => {
     axios
@@ -26,7 +46,13 @@ const ListeUtilisateurs = () => {
   // Activer le mode édition pour un utilisateur
   const handleEdit = (user) => {
     setEditUserId(user.id); // Définit l'ID de l'utilisateur en cours d'édition
-    setEditUserData({ nom: user.nom, prenom: user.prenom }); // Préfille les données de l'utilisateur
+    setEditUserData({
+      nom: user.nom,
+      prenom: user.prenom,
+      age: user.age,
+      pays: user.pays,
+      email: user.email,
+    }); // Préfille les données de l'utilisateur
   };
 
   // Mettre à jour l'utilisateur
@@ -40,7 +66,13 @@ const ListeUtilisateurs = () => {
           )
         );
         setEditUserId(null); // Quitte le mode édition
-        setEditUserData({ nom: "", prenom: "" }); // Réinitialise les données
+        setEditUserData({
+          nom: "",
+          prenom: "",
+          age: "",
+          pays: "",
+          email: "",
+        }); // Réinitialise les données
       })
       .catch((error) => console.error("Error updating user:", error));
   };
@@ -55,6 +87,9 @@ const ListeUtilisateurs = () => {
               <th>ID</th>
               <th>Nom</th>
               <th>Prénom</th>
+              <th>Âge</th>
+              <th>Pays</th>
+              <th>Email</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -82,12 +117,66 @@ const ListeUtilisateurs = () => {
                       type="text"
                       value={editUserData.prenom}
                       onChange={(e) =>
-                        setEditUserData({ ...editUserData, prenom: e.target.value })
+                        setEditUserData({
+                          ...editUserData,
+                          prenom: e.target.value,
+                        })
                       }
                       className="form-control"
                     />
                   ) : (
                     user.prenom
+                  )}
+                </td>
+                <td>
+                  {editUserId === user.id ? (
+                    <input
+                      type="number"
+                      value={editUserData.age}
+                      onChange={(e) =>
+                        setEditUserData({ ...editUserData, age: e.target.value })
+                      }
+                      className="form-control"
+                    />
+                  ) : (
+                    user.age
+                  )}
+                </td>
+                <td>
+                  {editUserId === user.id ? (
+                    <select
+                      value={editUserData.pays}
+                      onChange={(e) =>
+                        setEditUserData({ ...editUserData, pays: e.target.value })
+                      }
+                      className="form-select"
+                    >
+                      <option value="">Sélectionnez un pays</option>
+                      {paysOptions.map((pays) => (
+                        <option key={pays} value={pays}>
+                          {pays}
+                        </option>
+                      ))}
+                    </select>
+                  ) : (
+                    user.pays
+                  )}
+                </td>
+                <td>
+                  {editUserId === user.id ? (
+                    <input
+                      type="email"
+                      value={editUserData.email}
+                      onChange={(e) =>
+                        setEditUserData({
+                          ...editUserData,
+                          email: e.target.value,
+                        })
+                      }
+                      className="form-control"
+                    />
+                  ) : (
+                    user.email
                   )}
                 </td>
                 <td>
