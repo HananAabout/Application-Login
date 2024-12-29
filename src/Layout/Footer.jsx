@@ -1,5 +1,6 @@
 import { useSelector } from 'react-redux';
 import { FaFacebook, FaInstagram } from 'react-icons/fa';
+
 const FooterSection = () => {
   const couleur = useSelector((state) => state.color);
   return (
@@ -23,7 +24,9 @@ const FooterSection = () => {
           <FaInstagram size={20} className="me-2" /> Instagram
         </a>
       </div>
+      <p className="mt-3 mb-0">&copy; 2024 Tous droits réservés.</p>
     </footer>
   );
 };
+
 export default FooterSection;

@@ -52,7 +52,7 @@ const Request = () => {
           {
             title,
             description,
-            status: "pending",
+            status: "En attente", // Stocker directement en français
             id: Date.now(),
           },
         ];
@@ -76,12 +76,18 @@ const Request = () => {
   };
 
   const handleStatusUpdate = (reqId, status, userId) => {
+    const statusMapping = {
+      approved: "Acceptée",
+      rejected: "Rejetée",
+      cancelled: "Annulée",
+    };
+
     axios
       .get(`https://6761885646efb37323720ccc.mockapi.io/loginStagaires/${userId}`)
       .then((response) => {
         const userData = response.data;
         const updatedRequests = userData.request.map((req) =>
-          req.id === reqId ? { ...req, status } : req
+          req.id === reqId ? { ...req, status: statusMapping[status] } : req
         );
 
         return axios.put(
@@ -91,7 +97,9 @@ const Request = () => {
       })
       .then(() => {
         alert(
-          `Demande ${status === "approved" ? "acceptée" : "rejetée"} avec succès !`
+          `Demande ${
+            statusMapping[status]
+          } avec succès !`
         );
         fetchRequests();
       })
@@ -119,18 +127,20 @@ const Request = () => {
                     <small>Utilisateur ID : {req.userId}</small>
                     <br />
                     <span
-                      className={`badge bg-$
-                        {req.status === "pending" ? "warning" :
-                        req.status === "approved" ? "success" : "danger"}`}
+                      className={`badge bg-${
+                        req.status === "En attente"
+                          ? "warning"
+                          : req.status === "Acceptée"
+                          ? "success"
+                          : req.status === "Rejetée"
+                          ? "danger"
+                          : "secondary"
+                      }`}
                     >
-                      {req.status === "pending"
-                        ? "En attente"
-                        : req.status === "approved"
-                        ? "Acceptée"
-                        : "Rejetée"}
+                      {req.status}
                     </span>
                   </div>
-                  {req.status === "pending" && (
+                  {req.status === "En attente" && (
                     <div>
                       <button
                         className="btn btn-success btn-sm me-2"
@@ -141,12 +151,20 @@ const Request = () => {
                         Accepter
                       </button>
                       <button
-                        className="btn btn-danger btn-sm"
+                        className="btn btn-danger btn-sm me-2"
                         onClick={() =>
                           handleStatusUpdate(req.id, "rejected", req.userId)
                         }
                       >
                         Rejeter
+                      </button>
+                      <button
+                        className="btn btn-secondary btn-sm"
+                        onClick={() =>
+                          handleStatusUpdate(req.id, "cancelled", req.userId)
+                        }
+                      >
+                        Annuler
                       </button>
                     </div>
                   )}
@@ -206,10 +224,11 @@ const Request = () => {
                     <h5>{req.title}</h5>
                     <p className="mb-1">{req.description}</p>
                     <span
-                      className={`badge bg-$
-                        {req.status === "pending" ? "warning" : "success"}`}
+                      className={`badge bg-${
+                        req.status === "En attente" ? "warning" : "success"
+                      }`}
                     >
-                      {req.status === "pending" ? "En attente" : "Acceptée"}
+                      {req.status}
                     </span>
                   </div>
                 </div>
