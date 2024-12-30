@@ -51,7 +51,10 @@ const CreateCompte = () => {
   };
 
   return (
-    <div className="d-flex justify-content-center align-items-center vh-100">
+    <div
+      className="d-flex justify-content-center align-items-center vh-100"
+      style={{ backgroundColor: "#0088CC" }} // Updated background color to #0088CC
+    >
       <div
         className="card p-4 shadow"
         style={{

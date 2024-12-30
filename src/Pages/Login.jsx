@@ -25,12 +25,12 @@ const Login = () => {
           dispatch(loginUser(user));
           navigate("/layout");
         } else {
-          setErrors([...errors, "Invalid credentials"]);
+          setErrors([...errors, "Identifiants invalides"]);
           setAttempts(attempts + 1);
         }
       })
       .catch((errors) => {
-        setErrors([...errors, "Erreur au cours de la connexion"]);
+        setErrors([...errors, "Erreur lors de la connexion"]);
       });
   };
 
@@ -60,16 +60,16 @@ const Login = () => {
               letterSpacing: "1px",
             }}
           >
-            Welcome Back!
+            Bienvenue de nouveau !
           </h1>
           <p style={{ color: "#666", fontSize: "0.9rem" }}>
-            Please enter your credentials to log in.
+            Veuillez entrer vos identifiants pour vous connecter.
           </p>
         </div>
         <div className="mb-4">
           <input
             type="text"
-            placeholder="Username"
+            placeholder="Nom d'utilisateur"
             value={credentials.pseudo}
             onChange={(e) =>
               setCredentials({ ...credentials, pseudo: e.target.value })
@@ -87,7 +87,7 @@ const Login = () => {
         <div className="mb-4">
           <input
             type="password"
-            placeholder="Password"
+            placeholder="Mot de passe"
             value={credentials.password}
             onChange={(e) =>
               setCredentials({ ...credentials, password: e.target.value })
@@ -116,7 +116,7 @@ const Login = () => {
             border: "none",
           }}
         >
-          LOGIN
+          SE CONNECTER
         </button>
         {errors.length > 0 && (
           <ul className="mt-3 text-danger">
@@ -127,7 +127,7 @@ const Login = () => {
         )}
         <div className="text-center mt-4">
           <p style={{ color: "#999", fontSize: "0.85rem" }}>
-            Not registered?{" "}
+            Pas encore inscrit ?{" "}
             <a
               href="#"
               onClick={() => navigate("/create-account")}
@@ -137,7 +137,7 @@ const Login = () => {
                 fontWeight: "bold",
               }}
             >
-              Create an account
+              Créez un compte
             </a>
           </p>
         </div>

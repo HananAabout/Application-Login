@@ -52,7 +52,7 @@ const Request = () => {
           {
             title,
             description,
-            status: "En attente", // Stocker directement en français
+            status: "En attente",
             id: Date.now(),
           },
         ];
@@ -79,7 +79,6 @@ const Request = () => {
     const statusMapping = {
       approved: "Acceptée",
       rejected: "Rejetée",
-      cancelled: "Annulée",
     };
 
     axios
@@ -96,11 +95,7 @@ const Request = () => {
         );
       })
       .then(() => {
-        alert(
-          `Demande ${
-            statusMapping[status]
-          } avec succès !`
-        );
+        alert(`Demande ${statusMapping[status]} avec succès !`);
         fetchRequests();
       })
       .catch((err) => {
@@ -132,9 +127,7 @@ const Request = () => {
                           ? "warning"
                           : req.status === "Acceptée"
                           ? "success"
-                          : req.status === "Rejetée"
-                          ? "danger"
-                          : "secondary"
+                          : "danger"
                       }`}
                     >
                       {req.status}
@@ -151,20 +144,12 @@ const Request = () => {
                         Accepter
                       </button>
                       <button
-                        className="btn btn-danger btn-sm me-2"
+                        className="btn btn-danger btn-sm"
                         onClick={() =>
                           handleStatusUpdate(req.id, "rejected", req.userId)
                         }
                       >
                         Rejeter
-                      </button>
-                      <button
-                        className="btn btn-secondary btn-sm"
-                        onClick={() =>
-                          handleStatusUpdate(req.id, "cancelled", req.userId)
-                        }
-                      >
-                        Annuler
                       </button>
                     </div>
                   )}
