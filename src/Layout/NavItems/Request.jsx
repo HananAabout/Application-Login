@@ -9,18 +9,15 @@ const Request = () => {
   const [description, setDescription] = useState("");
   const [error, setError] = useState("");
   const user = useSelector((state) => state.user);
-
   useEffect(() => {
     if (user?.id) {
       fetchRequests();
     }
   }, []);
-
   const fetchRequests = () => {
     const url = user.admin
       ? "https://6761885646efb37323720ccc.mockapi.io/loginStagaires"
       : `https://6761885646efb37323720ccc.mockapi.io/loginStagaires/${user.id}`;
-
     axios
       .get(url)
       .then((response) => {
@@ -35,14 +32,13 @@ const Request = () => {
         console.error("Erreur lors de la récupération des demandes :", err);
       });
   };
-
   const handleAddRequest = (e) => {
     e.preventDefault();
     if (!title || !description) {
       setError("Le titre et la description sont obligatoires !");
       return;
     }
-
+    const currentDate = new Date().toLocaleString();
     axios
       .get(`https://6761885646efb37323720ccc.mockapi.io/loginStagaires/${user.id}`)
       .then((response) => {
@@ -54,9 +50,11 @@ const Request = () => {
             description,
             status: "En attente",
             id: Date.now(),
+            createdAt: currentDate,
+            updatedAt: "",
+            operationDate: "",
           },
         ];
-
         return axios.put(
           `https://6761885646efb37323720ccc.mockapi.io/loginStagaires/${user.id}`,
           { ...userData, request: updatedRequests }
@@ -74,21 +72,26 @@ const Request = () => {
         setError("Une erreur s'est produite. Veuillez réessayer.");
       });
   };
-
   const handleStatusUpdate = (reqId, status, userId) => {
     const statusMapping = {
       approved: "Acceptée",
       rejected: "Rejetée",
     };
-
+    const currentDate = new Date().toLocaleString();
     axios
       .get(`https://6761885646efb37323720ccc.mockapi.io/loginStagaires/${userId}`)
       .then((response) => {
         const userData = response.data;
         const updatedRequests = userData.request.map((req) =>
-          req.id === reqId ? { ...req, status: statusMapping[status] } : req
+          req.id === reqId
+            ? {
+                ...req,
+                status: statusMapping[status],
+                updatedAt: currentDate,
+                operationDate: currentDate,
+              }
+            : req
         );
-
         return axios.put(
           `https://6761885646efb37323720ccc.mockapi.io/loginStagaires/${userId}`,
           { ...userData, request: updatedRequests }
@@ -102,7 +105,6 @@ const Request = () => {
         console.error("Erreur lors de la mise à jour du statut :", err);
       });
   };
-
   return (
     <div className="container mt-5">
       <h2 className="mb-4">Gestion des demandes</h2>
@@ -120,6 +122,14 @@ const Request = () => {
                     <h5>{req.title}</h5>
                     <p className="mb-1">{req.description}</p>
                     <small>Utilisateur ID : {req.userId}</small>
+                    <br />
+                    <small>Créé le : {req.createdAt}</small>
+                    {req.updatedAt && <br />}
+                    {req.updatedAt && <small>Mise à jour le : {req.updatedAt}</small>}
+                    {req.operationDate && <br />}
+                    {req.operationDate && (
+                      <small>Opération effectuée le : {req.operationDate}</small>
+                    )}
                     <br />
                     <span
                       className={`badge bg-${
@@ -208,6 +218,14 @@ const Request = () => {
                   <div>
                     <h5>{req.title}</h5>
                     <p className="mb-1">{req.description}</p>
+                    <small>Créé le : {req.createdAt}</small>
+                    {req.updatedAt && <br />}
+                    {req.updatedAt && <small>Mise à jour le : {req.updatedAt}</small>}
+                    {req.operationDate && <br />}
+                    {req.operationDate && (
+                      <small>Opération effectuée le : {req.operationDate}</small>
+                    )}
+                    <br />
                     <span
                       className={`badge bg-${
                         req.status === "En attente" ? "warning" : "success"
@@ -227,5 +245,4 @@ const Request = () => {
     </div>
   );
 };
-
 export default Request;
