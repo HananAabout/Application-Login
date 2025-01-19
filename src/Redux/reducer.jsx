@@ -1,8 +1,8 @@
-import { LOGIN_USER, LOGOUT_USER, UPDATE_COLOR } from './action';
+import { LOGIN_USER, LOGOUT_USER, UPDATE_COLOR } from "./action";
 
 const initialState = {
   user: null,
-  color:"",
+  color: "",
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -10,11 +10,11 @@ const rootReducer = (state = initialState, action) => {
     case LOGIN_USER:
       return { ...state, user: action.payload };
     case LOGOUT_USER:
-      return { ...state, user: null };
+      return initialState;
     case UPDATE_COLOR:
       return {
         ...state,
-        color:action.payload
+        color: action.payload,
       };
     default:
       return state;

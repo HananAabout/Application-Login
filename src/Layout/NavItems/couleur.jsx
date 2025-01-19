@@ -7,21 +7,21 @@ import "bootstrap/dist/css/bootstrap.min.css";
 const Couleur = () => {
   const user = useSelector((state) => state.user);
   const userColor = useSelector((state) => state.color);
-  const [color, setColor] = useState(userColor || "#000000");
+  const [color, setColor] = useState("");
   const dispatch = useDispatch();
-  const colorPalette = [
-    "#FF5733", "#FF337A", "#A333FF", "#7233FF", "#3369FF",
-    "#33B5FF", "#33FFDD", "#33FF91", "#8BFF33", "#DAFF33",
-    "#FFEE33", "#FFC733", "#FF8F33", "#FF5E33", "#9C6C5E", "#6E8B9C"
-  ];
-  const handleColorChange = (newColor) => {
-    setColor(newColor);
+
+
+
+  const handleColorChange = (e) => {
+    setColor(e.target.value);
   };
+
   const handleSaveColor = () => {
     if (!user) {
       alert("No user is connected.");
       return;
     }
+    console.log("Attempting to update color:", color);
     axios
       .put(
         `https://6761885646efb37323720ccc.mockapi.io/loginStagaires/${user.id}`,
@@ -31,6 +31,7 @@ const Couleur = () => {
         }
       )
       .then((res) => {
+        console.log("Response from API:", res);
         if (res.status === 200) {
           dispatch(updateColor(color));
         } else {
@@ -50,30 +51,32 @@ const Couleur = () => {
           <h2 className="card-title mb-0">Modifier Ma Couleur Préférée</h2>
         </div>
         <div className="card-body">
-          <div
-            className="d-flex flex-wrap justify-content-center"
-            style={{ gap: "15px" }}
-          >
-            {colorPalette.map((col, index) => (
+          <div className="mb-4">
+            <h5 className="mb-3">Choisir une nouvelle couleur :</h5>
+            <div className="d-flex align-items-center">
+              <input
+                type="color"
+                value={color}
+                onChange={handleColorChange}
+                className="form-control form-control-color me-3"
+                title="Choisissez votre couleur"
+              />
               <div
-                key={index}
-                onClick={() => handleColorChange(col)}
                 className="rounded-circle border shadow-sm"
                 style={{
-                  width: "50px",
-                  height: "50px",
-                  backgroundColor: col,
-                  cursor: "pointer",
-                  border: col === color ? "3px solid black" : "1px solid #ccc",
+                  width: "40px",
+                  height: "40px",
+                  backgroundColor: color,
                 }}
               ></div>
-            ))}
+            </div>
           </div>
-          <div className="d-flex justify-content-center">
-            <button onClick={handleSaveColor} className="btn btn-success btn-lg mt-3">
-              Enregistrer
-            </button>
-          </div>
+          <button
+            onClick={handleSaveColor}
+            className="btn btn-success btn-lg mt-3"
+          >
+            Enregistrer
+          </button>
         </div>
         <div className="card-footer text-muted">
           <p>

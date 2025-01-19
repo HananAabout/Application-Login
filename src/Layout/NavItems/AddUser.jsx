@@ -10,7 +10,7 @@ const AddUser = () => {
     pseudo: "",
     MotDePasse: "",
     confirmMotDePasse: "",
-    couleur: "#000000",
+    couleur: "#000000", 
     admin: false,
   });
 
@@ -20,16 +20,6 @@ const AddUser = () => {
     MotDePasse: false,
     confirmMotDePasse: false,
   });
-
-  const colorPalette = [
-    "#FF5733", "#FF337A", "#A333FF", "#7233FF", "#3369FF",
-    "#33B5FF", "#33FFDD", "#33FF91", "#8BFF33", "#DAFF33",
-    "#FFEE33", "#FFC733", "#FF8F33", "#FF5E33", "#9C6C5E", "#6E8B9C"
-  ];
-
-  const handleColorChange = (newColor) => {
-    setUserData({ ...userData, couleur: newColor });
-  };
 
   const handleSubmit = () => {
     if (
@@ -59,7 +49,10 @@ const AddUser = () => {
     }
 
     axios
-      .post("https://6761885646efb37323720ccc.mockapi.io/loginStagaires", userData)
+      .post(
+        "https://6761885646efb37323720ccc.mockapi.io/loginStagaires",
+        userData
+      )
       .then(() => {
         setMessage("");
         setIsSuccessModalOpen(true);
@@ -92,62 +85,84 @@ const AddUser = () => {
         <h2 className="text-center mb-4">Ajouter un Utilisateur</h2>
         <form className="needs-validation" noValidate>
           <div className="mb-3">
-            <label className="form-label" htmlFor="nom">Nom</label>
+            <label className="form-label" htmlFor="nom">
+              Nom
+            </label>
             <input
               type="text"
               id="nom"
               className="form-control"
               placeholder="Entrez le nom"
               value={userData.nom}
-              onChange={(e) => setUserData({ ...userData, nom: e.target.value })}
+              onChange={(e) =>
+                setUserData({ ...userData, nom: e.target.value })
+              }
             />
           </div>
           <div className="mb-3">
-            <label className="form-label" htmlFor="prenom">Prénom</label>
+            <label className="form-label" htmlFor="prenom">
+              Prénom
+            </label>
             <input
               type="text"
               id="prenom"
               className="form-control"
               placeholder="Entrez le prénom"
               value={userData.prenom}
-              onChange={(e) => setUserData({ ...userData, prenom: e.target.value })}
+              onChange={(e) =>
+                setUserData({ ...userData, prenom: e.target.value })
+              }
             />
           </div>
           <div className="mb-3">
-            <label className="form-label" htmlFor="age">Âge</label>
+            <label className="form-label" htmlFor="age">
+              Âge
+            </label>
             <input
               type="number"
               id="age"
               className="form-control"
               placeholder="Entrez l'âge"
               value={userData.age}
-              onChange={(e) => setUserData({ ...userData, age: e.target.value })}
+              onChange={(e) =>
+                setUserData({ ...userData, age: e.target.value })
+              }
             />
           </div>
           <div className="mb-3">
-            <label className="form-label" htmlFor="email">Email</label>
+            <label className="form-label" htmlFor="email">
+              Email
+            </label>
             <input
               type="email"
               id="email"
               className="form-control"
               placeholder="Entrez l'email"
               value={userData.email}
-              onChange={(e) => setUserData({ ...userData, email: e.target.value })}
+              onChange={(e) =>
+                setUserData({ ...userData, email: e.target.value })
+              }
             />
           </div>
           <div className="mb-3">
-            <label className="form-label" htmlFor="pseudo">Pseudo</label>
+            <label className="form-label" htmlFor="pseudo">
+              Pseudo
+            </label>
             <input
               type="text"
               id="pseudo"
               className="form-control"
               placeholder="Entrez le pseudo"
               value={userData.pseudo}
-              onChange={(e) => setUserData({ ...userData, pseudo: e.target.value })}
+              onChange={(e) =>
+                setUserData({ ...userData, pseudo: e.target.value })
+              }
             />
           </div>
           <div className="mb-3">
-            <label className="form-label" htmlFor="MotDePasse">Mot de passe</label>
+            <label className="form-label" htmlFor="MotDePasse">
+              Mot de passe
+            </label>
             <div className="input-group">
               <input
                 type={showPassword.MotDePasse ? "text" : "password"}
@@ -155,35 +170,69 @@ const AddUser = () => {
                 className="form-control"
                 placeholder="Entrez le mot de passe"
                 value={userData.MotDePasse}
-                onChange={(e) => setUserData({ ...userData, MotDePasse: e.target.value })}
+                onChange={(e) =>
+                  setUserData({ ...userData, MotDePasse: e.target.value })
+                }
               />
               <button
                 type="button"
                 className="btn btn-outline-secondary"
-                onClick={() => setShowPassword({ ...showPassword, MotDePasse: !showPassword.MotDePasse })}
+                onClick={() =>
+                  setShowPassword({
+                    ...showPassword,
+                    MotDePasse: !showPassword.MotDePasse,
+                  })
+                }
               >
-                {showPassword.MotDePasse ? "👁️" : "🙈"}
+                {showPassword.MotDePasse ? "🔍" : "💖"}
               </button>
             </div>
           </div>
           <div className="mb-3">
-            <label className="form-label">Couleur préférée</label>
-            <div className="d-flex flex-wrap" style={{ gap: "8px" }}>
-              {colorPalette.map((col, index) => (
-                <div
-                  key={index}
-                  className="rounded-circle"
-                  style={{
-                    width: "30px",
-                    height: "30px",
-                    backgroundColor: col,
-                    border: userData.couleur === col ? "2px solid black" : "1px solid #ccc",
-                    cursor: "pointer",
-                  }}
-                  onClick={() => handleColorChange(col)}
-                ></div>
-              ))}
+            <label className="form-label" htmlFor="confirmMotDePasse">
+              Confirmation du mot de passe
+            </label>
+            <div className="input-group">
+              <input
+                type={showPassword.confirmMotDePasse ? "text" : "password"}
+                id="confirmMotDePasse"
+                className="form-control"
+                placeholder="Confirmez le mot de passe"
+                value={userData.confirmMotDePasse}
+                onChange={(e) =>
+                  setUserData({
+                    ...userData,
+                    confirmMotDePasse: e.target.value,
+                  })
+                }
+              />
+              <button
+                type="button"
+                className="btn btn-outline-secondary"
+                onClick={() =>
+                  setShowPassword({
+                    ...showPassword,
+                    confirmMotDePasse: !showPassword.confirmMotDePasse,
+                  })
+                }
+              >
+                {showPassword.confirmMotDePasse ? "🔍" : "💖"}
+              </button>
             </div>
+          </div>
+          <div className="mb-3">
+            <label className="form-label" htmlFor="couleur">
+              Couleur préférée
+            </label>
+            <input
+              type="color"
+              id="couleur"
+              className="form-control form-control-color"
+              value={userData.couleur}
+              onChange={(e) =>
+                setUserData({ ...userData, couleur: e.target.value })
+              }
+            />
           </div>
           <div className="mb-3">
             <div className="form-check">
@@ -192,35 +241,105 @@ const AddUser = () => {
                 type="checkbox"
                 id="admin"
                 checked={userData.admin}
-                onChange={(e) => setUserData({ ...userData, admin: e.target.checked })}
+                onChange={(e) =>
+                  setUserData({ ...userData, admin: e.target.checked })
+                }
               />
-              <label className="form-check-label" htmlFor="admin">Admin ?</label>
+              <label className="form-check-label" htmlFor="admin">
+                Admin ?
+              </label>
             </div>
           </div>
           <div className="text-center">
-            <button type="button" className="btn btn-primary" onClick={handleSubmit}>Ajouter</button>
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={handleSubmit}
+            >
+              Ajouter
+            </button>
           </div>
         </form>
         {message && <p className="text-danger mt-3">{message}</p>}
       </div>
+
+      {/* Success Modal */}
       {isSuccessModalOpen && (
-        <div className="modal show d-block">
-          <div className="modal-dialog modal-dialog-centered">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title">Succès</h5>
-                <button type="button" className="btn-close" onClick={() => setIsSuccessModalOpen(false)}></button>
-              </div>
-              <div className="modal-body">
-                <p>Utilisateur ajouté avec succès !</p>
-              </div>
-              <div className="modal-footer">
-                <button type="button" className="btn btn-primary" onClick={() => setIsSuccessModalOpen(false)}>Fermer</button>
-              </div>
-            </div>
-          </div>
+  <div
+    className="modal show d-block"
+    tabIndex="-1"
+    style={{
+      backgroundColor: "rgba(0, 0, 0, 0.5)", 
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+    }}
+  >
+    <div className="modal-dialog modal-dialog-centered">
+      <div
+        className="modal-content"
+        style={{
+          border: "none",
+          borderRadius: "10px",
+          boxShadow: "0px 4px 15px rgba(0, 0, 0, 0.2)",
+        }}
+      >
+        <div
+          className="modal-header"
+          style={{
+            backgroundColor: "#003366", 
+            color: "white", // Texte blanc
+            borderTopLeftRadius: "10px",
+            borderTopRightRadius: "10px",
+          }}
+        >
+          <h5 className="modal-title">
+            <i className="bi bi-check-circle me-2"></i> Succès
+          </h5>
+          <button
+            type="button"
+            className="btn-close btn-close-white"
+            onClick={() => setIsSuccessModalOpen(false)}
+          ></button>
         </div>
-      )}
+        <div
+          className="modal-body text-center"
+          style={{
+            padding: "20px",
+            backgroundColor: "#f9f9f9", 
+          }}
+        >
+          <p className="fs-5 mb-0" style={{ color: "#333" }}> 
+            Utilisateur ajouté avec succès !
+          </p>
+        </div>
+        <div
+          className="modal-footer"
+          style={{
+            backgroundColor: "#f9f9f9", 
+            borderBottomLeftRadius: "10px",
+            borderBottomRightRadius: "10px",
+          }}
+        >
+          <button
+            type="button"
+            className="btn"
+            style={{
+              backgroundColor: "#003366", 
+              color: "white",
+              padding: "8px 20px",
+              borderRadius: "5px",
+            }}
+            onClick={() => setIsSuccessModalOpen(false)}
+          >
+            Fermer
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+
     </div>
   );
 };

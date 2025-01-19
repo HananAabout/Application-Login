@@ -2,12 +2,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../Redux/action";
 import { useNavigate } from "react-router-dom";
 import logo from "./logo12.avif";
+import useDynamicColor from "../Components/useDynamicColor";
+
 
 const HeaderSection = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
-  const couleur = useSelector((state) => state.color);
   const navigate = useNavigate();
+  const { backgroundColor } = useDynamicColor();
+
 
   const handleLogout = () => {
     dispatch(logoutUser());
@@ -17,21 +20,21 @@ const HeaderSection = () => {
   return (
     <header
       className="d-flex justify-content-between align-items-center p-3 text-white"
-      style={{ backgroundColor: couleur }}
+      style={{ backgroundColor: backgroundColor }}
     >
       <div>
         <img
           src={logo}
           alt="Logo"
           className="img-fluid"
-          style={{ height: "70px" ,width:"70px" }}
+          style={{ height: "50px", width: "50px" }}
         />
       </div>
       <div className="d-flex align-items-center">
         {user ? (
           <>
             <img
-              src={user.photo || "/path-to-default-avatar.png"} 
+              src={user.photo || "/path-to-default-avatar.png"} // Affiche une image par défaut si aucune photo
               alt="Photo utilisateur"
               className="rounded-circle me-2"
               style={{ width: "40px", height: "40px", objectFit: "cover" }}

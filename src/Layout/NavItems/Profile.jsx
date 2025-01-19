@@ -2,10 +2,9 @@ import { useSelector } from "react-redux";
 
 const Profile = () => {
   const user = useSelector((state) => state.user);
-  const userColor = useSelector((state) => state.color);
   
   return (
-    <div className="container py-5" style={{ backgroundColor: userColor }}>
+    <div className="container py-5" >
       <div className="row justify-content-center">
         <div className="col-lg-6 col-md-8 col-sm-10">
           <div className="card shadow-lg">
@@ -41,4 +40,5 @@ const Profile = () => {
     </div>
   );
 };
+
 export default Profile;

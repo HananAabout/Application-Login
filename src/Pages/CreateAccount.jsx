@@ -35,6 +35,7 @@ const CreateCompte = () => {
       );
       return;
     }
+
     axios
       .post(
         "https://6761885646efb37323720ccc.mockapi.io/loginStagaires",
@@ -52,163 +53,173 @@ const CreateCompte = () => {
 
   return (
     <div
-      className="d-flex justify-content-center align-items-center vh-100"
-      style={{ backgroundColor: "#0088CC" }} // Updated background color to #0088CC
+      style={{
+        background: "linear-gradient(to right, #e3f2fd, #bbdefb)",
+        minHeight: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
     >
-      <div
-        className="card p-4 shadow"
-        style={{
-          width: "400px",
-          borderRadius: "10px",
-          backgroundColor: "#f8f9fa",
-        }}
-      >
-        <h3 className="text-center mb-4">Créer un Compte</h3>
-        <form>
-          <div className="mb-3">
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Nom"
-              value={formData.nom}
-              onChange={(e) =>
-                setFormData({ ...formData, nom: e.target.value })
-              }
-            />
-          </div>
-          <div className="mb-3">
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Prénom"
-              value={formData.prenom}
-              onChange={(e) =>
-                setFormData({ ...formData, prenom: e.target.value })
-              }
-            />
-          </div>
-          <div className="mb-3">
-            <input
-              type="number"
-              className="form-control"
-              placeholder="Âge"
-              value={formData.age}
-              onChange={(e) =>
-                setFormData({ ...formData, age: e.target.value })
-              }
-            />
-          </div>
-          <div className="mb-3">
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Pseudo"
-              value={formData.pseudo}
-              onChange={(e) =>
-                setFormData({ ...formData, pseudo: e.target.value })
-              }
-            />
-          </div>
-          <div className="mb-3">
-            <select
-              className="form-select"
-              value={formData.pays}
-              onChange={(e) =>
-                setFormData({ ...formData, pays: e.target.value })
-              }
-            >
-              <option value="">Pays</option>
-              <option value="France">France</option>
-              <option value="Canada">Canada</option>
-              <option value="États-Unis">États-Unis</option>
-              <option value="Maroc">Maroc</option>
-              <option value="Tunisie">Tunisie</option>
-              <option value="Algérie">Algérie</option>
-            </select>
-          </div>
-          <div className="mb-3">
-            <select
-              className="form-select"
-              value={formData.couleur}
-              onChange={(e) =>
-                setFormData({ ...formData, couleur: e.target.value })
-              }
-            >
-              <option value="">Couleur préférée</option>
-              <option value="Rouge">Rouge</option>
-              <option value="Bleu">Bleu</option>
-              <option value="Vert">Vert</option>
-              <option value="Jaune">Jaune</option>
-              <option value="Noir">Noir</option>
-            </select>
-          </div>
-          <div className="mb-3">
-            <div className="input-group">
-              <input
-                type={showPassword ? "text" : "password"}
-                className="form-control"
-                placeholder="Mot de passe"
-                value={formData.MotDePasse}
-                onChange={(e) =>
-                  setFormData({ ...formData, MotDePasse: e.target.value })
-                }
-              />
-              <button
-                type="button"
-                className="btn btn-outline-secondary"
-                onClick={() => setShowPassword(!showPassword)}
-              >
-                {showPassword ? "🙈" : "👁️"}
-              </button>
-            </div>
-          </div>
-          <div className="mb-3">
-            <div className="input-group">
-              <input
-                type={showConfirmPassword ? "text" : "password"}
-                className="form-control"
-                placeholder="Confirmer le mot de passe"
-                value={formData.confirmMotDePasse}
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    confirmMotDePasse: e.target.value,
-                  })
-                }
-              />
-              <button
-                type="button"
-                className="btn btn-outline-secondary"
-                onClick={() =>
-                  setShowConfirmPassword(!showConfirmPassword)
-                }
-              >
-                {showConfirmPassword ? "🙈" : "👁️"}
-              </button>
-            </div>
-          </div>
-          <div className="mb-3 form-check">
-            <input
-              type="checkbox"
-              className="form-check-input"
-              id="adminCheck"
-              checked={formData.admin}
-              onChange={(e) =>
-                setFormData({ ...formData, admin: e.target.checked })
-              }
-            />
-            <label className="form-check-label" htmlFor="adminCheck">
-              Admin
-            </label>
-          </div>
-          <button
-            type="button"
-            className="btn btn-primary w-100"
-            onClick={handleSubmit}
-          >
+      <div className="card shadow-lg" style={{ width: "35rem", borderRadius: "10px" }}>
+        <div className="card-body">
+          <h3 className="card-title text-center mb-4" style={{ color: "#1976d2" }}>
             Créer un Compte
-          </button>
-        </form>
+          </h3>
+          <form>
+            <div className="mb-3">
+              <label className="form-label">Nom</label>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Entrez votre nom"
+                value={formData.nom}
+                onChange={(e) =>
+                  setFormData({ ...formData, nom: e.target.value })
+                }
+              />
+            </div>
+            <div className="mb-3">
+              <label className="form-label">Prénom</label>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Entrez votre prénom"
+                value={formData.prenom}
+                onChange={(e) =>
+                  setFormData({ ...formData, prenom: e.target.value })
+                }
+              />
+            </div>
+            <div className="mb-3">
+              <label className="form-label">Âge</label>
+              <input
+                type="number"
+                className="form-control"
+                placeholder="Entrez votre âge"
+                value={formData.age}
+                onChange={(e) =>
+                  setFormData({ ...formData, age: e.target.value })
+                }
+              />
+            </div>
+            <div className="mb-3">
+              <label className="form-label">Pseudo</label>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Entrez un pseudo"
+                value={formData.pseudo}
+                onChange={(e) =>
+                  setFormData({ ...formData, pseudo: e.target.value })
+                }
+              />
+            </div>
+            <div className="mb-3">
+              <label className="form-label">Pays</label>
+              <select
+                className="form-select"
+                value={formData.pays}
+                onChange={(e) =>
+                  setFormData({ ...formData, pays: e.target.value })
+                }
+              >
+                <option value="">Sélectionnez un pays</option>
+                <option value="France">France</option>
+                <option value="Canada">Canada</option>
+                <option value="États-Unis">États-Unis</option>
+                <option value="Maroc">Maroc</option>
+                <option value="Tunisie">Tunisie</option>
+                <option value="Algérie">Algérie</option>
+              </select>
+            </div>
+            <div className="mb-3">
+              <label className="form-label">Couleur Préférée</label>
+              <select
+                className="form-select"
+                value={formData.couleur}
+                onChange={(e) =>
+                  setFormData({ ...formData, couleur: e.target.value })
+                }
+              >
+                <option value="">Sélectionnez une couleur</option>
+                <option value="#FF0000">Rouge</option>
+                <option value="#0000FF">Bleu</option>
+                <option value="#008000">Vert</option>
+                <option value="#FFFF00">Jaune</option>
+                <option value="#000000">Noir</option>
+              </select>
+            </div>
+            <div className="mb-3">
+              <label className="form-label">Mot de Passe</label>
+              <div className="input-group">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  className="form-control"
+                  placeholder="Entrez un mot de passe"
+                  value={formData.MotDePasse}
+                  onChange={(e) =>
+                    setFormData({ ...formData, MotDePasse: e.target.value })
+                  }
+                />
+                <button
+                  type="button"
+                  className="btn btn-outline-secondary"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? "🙈" : "👁️"}
+                </button>
+              </div>
+            </div>
+            <div className="mb-3">
+              <label className="form-label">Confirmer Mot de Passe</label>
+              <div className="input-group">
+                <input
+                  type={showConfirmPassword ? "text" : "password"}
+                  className="form-control"
+                  placeholder="Confirmez votre mot de passe"
+                  value={formData.confirmMotDePasse}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      confirmMotDePasse: e.target.value,
+                    })
+                  }
+                />
+                <button
+                  type="button"
+                  className="btn btn-outline-secondary"
+                  onClick={() =>
+                    setShowConfirmPassword(!showConfirmPassword)
+                  }
+                >
+                  {showConfirmPassword ? "🙈" : "👁️"}
+                </button>
+              </div>
+            </div>
+            <div className="mb-3 form-check">
+              <input
+                type="checkbox"
+                className="form-check-input"
+                id="adminCheck"
+                checked={formData.admin}
+                onChange={(e) =>
+                  setFormData({ ...formData, admin: e.target.checked })
+                }
+              />
+              <label className="form-check-label" htmlFor="adminCheck">
+                Admin
+              </label>
+            </div>
+            <button
+              type="button"
+              className="btn btn-primary w-100"
+              onClick={handleSubmit}
+            >
+              Créer un Compte
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );

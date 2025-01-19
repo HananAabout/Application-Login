@@ -4,6 +4,7 @@ import axios from "axios";
 const Admin = () => {
   const [requests, setRequests] = useState([]);
 
+  // Récupérer toutes les demandes
   const fetchRequests = () => {
     axios
       .get(`https://6761885646efb37323720ccc.mockapi.io/loginStagaires`)
@@ -15,11 +16,13 @@ const Admin = () => {
       });
   };
 
+  // Modifier le statut d'une demande
   const handleUpdateStatus = (id, status) => {
     axios
-      .put(`https://6761885646efb37323720ccc.mockapi.io/loginStagaires/${id}`, {
-        status,
-      })
+      .put(
+        `https://6761885646efb37323720ccc.mockapi.io/loginStagaires/${id}`,
+        { status }
+      )
       .then(() => {
         fetchRequests();
       })

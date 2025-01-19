@@ -13,6 +13,7 @@ const Login = () => {
 
   const handleLogin = () => {
     if (attempts >= 3) return;
+
     axios
       .get("https://6761885646efb37323720ccc.mockapi.io/loginStagaires")
       .then((response) => {
@@ -23,14 +24,14 @@ const Login = () => {
         );
         if (user) {
           dispatch(loginUser(user));
-          navigate("/layout");
+          navigate("/layout"); 
         } else {
-          setErrors([...errors, "Identifiants invalides"]);
+          setErrors([...errors, "Invalid credentials"]);
           setAttempts(attempts + 1);
         }
       })
-      .catch((errors) => {
-        setErrors([...errors, "Erreur lors de la connexion"]);
+      .catch(() => {
+        setErrors([...errors, "Erreur au cours de la connexion"]);
       });
   };
 
@@ -38,85 +39,63 @@ const Login = () => {
     <div
       className="d-flex justify-content-center align-items-center vh-100"
       style={{
-        background: "linear-gradient(135deg, #6AB7FF, #0088CC)",
-        fontFamily: "Arial, sans-serif",
+        background: "linear-gradient(to right, #e3f2fd, #bbdefb)", // Background général
       }}
     >
       <div
-        className="card p-5"
+        className="card p-4"
         style={{
           width: "400px",
-          borderRadius: "15px",
+          borderRadius: "10px",
           backgroundColor: "#FFFFFF",
-          boxShadow: "0 8px 20px rgba(0, 0, 0, 0.2)",
+          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
         }}
       >
         <div className="text-center mb-4">
-          <h1
-            className="h4"
-            style={{
-              color: "#0088CC",
-              fontWeight: "bold",
-              letterSpacing: "1px",
-            }}
-          >
-            Bienvenue de nouveau !
+          <h1 className="h4 mb-3" style={{ color: "#4CAF50" }}>
+            Login
           </h1>
-          <p style={{ color: "#666", fontSize: "0.9rem" }}>
-            Veuillez entrer vos identifiants pour vous connecter.
-          </p>
         </div>
         <div className="mb-4">
           <input
             type="text"
-            placeholder="Nom d'utilisateur"
+            placeholder="Username"
             value={credentials.pseudo}
             onChange={(e) =>
               setCredentials({ ...credentials, pseudo: e.target.value })
             }
             className="form-control"
-            style={{
-              height: "50px",
-              fontSize: "1rem",
-              borderRadius: "10px",
-              border: "1px solid #DDD",
-              padding: "10px",
-            }}
+            style={{ height: "50px", fontSize: "1rem", borderRadius: "8px" }}
           />
         </div>
         <div className="mb-4">
           <input
             type="password"
-            placeholder="Mot de passe"
+            placeholder="Password"
             value={credentials.password}
             onChange={(e) =>
               setCredentials({ ...credentials, password: e.target.value })
             }
             className="form-control"
-            style={{
-              height: "50px",
-              fontSize: "1rem",
-              borderRadius: "10px",
-              border: "1px solid #DDD",
-              padding: "10px",
-            }}
+            style={{ height: "50px", fontSize: "1rem", borderRadius: "8px" }}
           />
         </div>
         <button
           onClick={handleLogin}
           disabled={attempts >= 3}
-          className={`btn w-100 ${
-            attempts >= 3 ? "btn-secondary" : "btn-primary"
-          }`}
+          className={`btn btn-block`}
           style={{
             height: "50px",
             fontSize: "1rem",
-            borderRadius: "10px",
-            background: attempts >= 3 ? "#CCC" : "#0088CC",
+            borderRadius: "8px",
+            color: "#FFFFFF",
+            background: attempts >= 3
+              ? "#9E9E9E" 
+              : "linear-gradient(to right, #4CAF50, #66BB6A)", // Couleur dégradée
             border: "none",
           }}
         >
-          SE CONNECTER
+          LOGIN
         </button>
         {errors.length > 0 && (
           <ul className="mt-3 text-danger">
@@ -126,18 +105,20 @@ const Login = () => {
           </ul>
         )}
         <div className="text-center mt-4">
-          <p style={{ color: "#999", fontSize: "0.85rem" }}>
-            Pas encore inscrit ?{" "}
+          <p style={{ color: "#9E9E9E", fontSize: "0.9rem" }}>
+            Not registered?{" "}
             <a
               href="#"
               onClick={() => navigate("/create-account")}
               style={{
-                color: "#0088CC",
+                color: "#FFFFFF",
                 textDecoration: "none",
-                fontWeight: "bold",
+                padding: "5px 10px",
+                borderRadius: "5px",
+                background: "linear-gradient(to right, #4CAF50, #66BB6A)", // Couleur dégradée pour le lien
               }}
             >
-              Créez un compte
+              Create an account
             </a>
           </p>
         </div>

@@ -7,15 +7,15 @@ import Section from "./Layout/Section";
 const Layout = () => {
   return (
     <div className="layout">
-      <HeaderSection /> 
-      <Navbar /> 
+      <HeaderSection /> {/* En-tête */}
+      <Navbar /> {/* Menu principal directement sous l'en-tête */}
       <div className="main-content" style={{ height: "100vh" }}>
-        <NavbarIndex className="sidebar" />
+        <NavbarIndex className="sidebar" /> {/* Menu latéral gauche */}
         <main className="content-section">
           <Section />
         </main>
       </div>
-      <Footer />
+      <Footer /> {/* Pied de page */}
       
       <style>{`
         .layout {
