@@ -1,10 +1,8 @@
 import { LOGIN_USER, LOGOUT_USER, UPDATE_COLOR } from "./action";
-
 const initialState = {
   user: null,
   color: "",
 };
-
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
     case LOGIN_USER:
@@ -20,5 +18,4 @@ const rootReducer = (state = initialState, action) => {
       return state;
   }
 };
-
 export default rootReducer;

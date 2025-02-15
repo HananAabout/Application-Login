@@ -8,67 +8,60 @@ const NavbarIndex = () => {
   const user = useSelector((state) => state.user);
   const { backgroundColor } = useDynamicColor();
 
-
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+
   return (
     <aside
-      className="navbar navbar-expand-lg bg-light flex-column"
-      style={{ height: "100vh" }}
+      className="bg-gray-100 flex flex-col h-screen"
+      style={{ backgroundColor: backgroundColor }}
     >
-      <div className="container" style={{ backgroundColor: backgroundColor }}>
+      <div className="p-4">
         <button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarAside"
-          aria-controls="navbarAside"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
+          className="text-gray-700 focus:outline-none md:hidden"
           onClick={toggleMenu}
         >
-          <span className="navbar-toggler-icon"></span>
+          {isMenuOpen ? "✖" : "☰"}
         </button>
         <div
-          className={`collapse navbar-collapse ${isMenuOpen ? "show" : ""}`}
-          id="navbarAside"
+          className={`mt-4 md:block ${isMenuOpen ? "block" : "hidden"}`}
         >
-          <ul className="navbar-nav flex-column gap-4">
-            <li className="nav-item">
+          <ul className="flex flex-col space-y-4">
+            <li>
               <NavLink
                 to="/layout/home"
                 className={({ isActive }) =>
-                  `nav-link ${isActive ? "active" : ""}`
+                  `block py-2 px-4 rounded hover:bg-blue-200 ${isActive ? "bg-blue-500 text-white" : "text-gray-700"}`
                 }
               >
                 Accueil
               </NavLink>
             </li>
-            <li className="nav-item">
+            <li>
               <NavLink
                 to="/layout/profile"
                 className={({ isActive }) =>
-                  `nav-link ${isActive ? "active" : ""}`
+                  `block py-2 px-4 rounded hover:bg-blue-200 ${isActive ? "bg-blue-500 text-white" : "text-gray-700"}`
                 }
               >
                 Voir Mon Profil
               </NavLink>
             </li>
-            <li className="nav-item">
+            <li>
               <NavLink
                 to="/layout/couleur"
                 className={({ isActive }) =>
-                  `nav-link ${isActive ? "active" : ""}`
+                  `block py-2 px-4 rounded hover:bg-blue-200 ${isActive ? "bg-blue-500 text-white" : "text-gray-700"}`
                 }
               >
                 Modifier Couleur
               </NavLink>
             </li>
             {!user?.admin && (
-              <li className="nav-item">
+              <li>
                 <NavLink
                   to="/layout/request"
                   className={({ isActive }) =>
-                    `nav-link ${isActive ? "active" : ""}`
+                    `block py-2 px-4 rounded hover:bg-blue-200 ${isActive ? "bg-blue-500 text-white" : "text-gray-700"}`
                   }
                 >
                   Ajouter une demande
@@ -76,13 +69,12 @@ const NavbarIndex = () => {
               </li>
             )}
 
-            {/* Condition : Afficher Voir les demandes si l'utilisateur est admin */}
             {user?.admin && (
-              <li className="nav-item">
+              <li>
                 <NavLink
                   to="/layout/request"
                   className={({ isActive }) =>
-                    `nav-link ${isActive ? "active" : ""}`
+                    `block py-2 px-4 rounded hover:bg-blue-200 ${isActive ? "bg-blue-500 text-white" : "text-gray-700"}`
                   }
                 >
                   Voir les demandes
@@ -91,21 +83,21 @@ const NavbarIndex = () => {
             )}
             {user?.admin && (
               <>
-                <li className="nav-item">
+                <li>
                   <NavLink
                     to="/layout/list-tUser"
                     className={({ isActive }) =>
-                      `nav-link ${isActive ? "active" : ""}`
+                      `block py-2 px-4 rounded hover:bg-blue-200 ${isActive ? "bg-blue-500 text-white" : "text-gray-700"}`
                     }
                   >
                     Liste Utilisateurs
                   </NavLink>
                 </li>
-                <li className="nav-item">
+                <li>
                   <NavLink
                     to="/layout/add-user"
                     className={({ isActive }) =>
-                      `nav-link ${isActive ? "active" : ""}`
+                      `block py-2 px-4 rounded hover:bg-blue-200 ${isActive ? "bg-blue-500 text-white" : "text-gray-700"}`
                     }
                   >
                     Ajouter Utilisateur
@@ -119,4 +111,5 @@ const NavbarIndex = () => {
     </aside>
   );
 };
+
 export default NavbarIndex;

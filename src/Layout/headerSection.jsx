@@ -4,13 +4,11 @@ import { useNavigate } from "react-router-dom";
 import logo from "./logo12.avif";
 import useDynamicColor from "../Components/useDynamicColor";
 
-
 const HeaderSection = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const navigate = useNavigate();
   const { backgroundColor } = useDynamicColor();
-
 
   const handleLogout = () => {
     dispatch(logoutUser());
@@ -19,35 +17,36 @@ const HeaderSection = () => {
 
   return (
     <header
-      className="d-flex justify-content-between align-items-center p-3 text-white"
-      style={{ backgroundColor: backgroundColor }}
+      className="flex items-center justify-between p-4 shadow-lg"
+      style={{ backgroundColor }}
     >
       <div>
         <img
           src={logo}
           alt="Logo"
-          className="img-fluid"
-          style={{ height: "50px", width: "50px" }}
+          className="h-12 w-12 object-contain rounded-full"
         />
       </div>
-      <div className="d-flex align-items-center">
+      <div className="flex items-center gap-4">
         {user ? (
           <>
             <img
-              src={user.photo || "/path-to-default-avatar.png"} // Affiche une image par défaut si aucune photo
-              alt="Photo utilisateur"
-              className="rounded-circle me-2"
-              style={{ width: "40px", height: "40px", objectFit: "cover" }}
+              src={user.photo || "/path-to-default-avatar.png"}
+              alt="Utilisateur"
+              className="w-10 h-10 rounded-full border border-gray-300 object-cover"
             />
-            <p className="mb-0 me-3">
+            <p className="text-white font-semibold">
               Bonjour, {user.prenom} {user.nom}
             </p>
-            <button onClick={handleLogout} className="btn btn-danger">
+            <button
+              onClick={handleLogout}
+              className="px-4 py-2 text-white bg-red-500 hover:bg-red-600 rounded-lg transition duration-300"
+            >
               Se Déconnecter
             </button>
           </>
         ) : (
-          <p className="mb-0">Veuillez vous connecter.</p>
+          <p className="text-white font-medium">Veuillez vous connecter.</p>
         )}
       </div>
     </header>

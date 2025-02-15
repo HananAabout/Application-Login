@@ -24,7 +24,7 @@ const Login = () => {
         );
         if (user) {
           dispatch(loginUser(user));
-          navigate("/layout"); 
+          navigate("/layout");
         } else {
           setErrors([...errors, "Invalid credentials"]);
           setAttempts(attempts + 1);
@@ -36,25 +36,10 @@ const Login = () => {
   };
 
   return (
-    <div
-      className="d-flex justify-content-center align-items-center vh-100"
-      style={{
-        background: "linear-gradient(to right, #e3f2fd, #bbdefb)", // Background général
-      }}
-    >
-      <div
-        className="card p-4"
-        style={{
-          width: "400px",
-          borderRadius: "10px",
-          backgroundColor: "#FFFFFF",
-          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-        }}
-      >
-        <div className="text-center mb-4">
-          <h1 className="h4 mb-3" style={{ color: "#4CAF50" }}>
-            Login
-          </h1>
+    <div className="flex justify-center items-center min-h-screen bg-white">
+      <div className="p-8 w-96 rounded-lg bg-white shadow-2xl">
+        <div className="text-center mb-6">
+          <h1 className="text-3xl font-bold text-indigo-600">Se connecter</h1>
         </div>
         <div className="mb-4">
           <input
@@ -64,8 +49,7 @@ const Login = () => {
             onChange={(e) =>
               setCredentials({ ...credentials, pseudo: e.target.value })
             }
-            className="form-control"
-            style={{ height: "50px", fontSize: "1rem", borderRadius: "8px" }}
+            className="w-full p-4 text-base rounded-lg border border-gray-300 focus:outline-none focus:ring-4 focus:ring-indigo-300"
           />
         </div>
         <div className="mb-4">
@@ -76,49 +60,36 @@ const Login = () => {
             onChange={(e) =>
               setCredentials({ ...credentials, password: e.target.value })
             }
-            className="form-control"
-            style={{ height: "50px", fontSize: "1rem", borderRadius: "8px" }}
+            className="w-full p-4 text-base rounded-lg border border-gray-300 focus:outline-none focus:ring-4 focus:ring-indigo-300"
           />
         </div>
         <button
           onClick={handleLogin}
           disabled={attempts >= 3}
-          className={`btn btn-block`}
-          style={{
-            height: "50px",
-            fontSize: "1rem",
-            borderRadius: "8px",
-            color: "#FFFFFF",
-            background: attempts >= 3
-              ? "#9E9E9E" 
-              : "linear-gradient(to right, #4CAF50, #66BB6A)", // Couleur dégradée
-            border: "none",
-          }}
+          className={`w-full p-4 text-white text-base font-semibold rounded-lg transition-all ${
+            attempts >= 3
+              ? "bg-gray-500 cursor-not-allowed"
+              : "bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600"
+          }`}
         >
-          LOGIN
+          Conncter
         </button>
         {errors.length > 0 && (
-          <ul className="mt-3 text-danger">
+          <ul className="mt-3 text-red-500">
             {errors.map((err, index) => (
               <li key={index}>{err}</li>
             ))}
           </ul>
         )}
         <div className="text-center mt-4">
-          <p style={{ color: "#9E9E9E", fontSize: "0.9rem" }}>
-            Not registered?{" "}
+          <p className="text-gray-600 text-sm">
+            Non inscrit?{" "}
             <a
               href="#"
               onClick={() => navigate("/create-account")}
-              style={{
-                color: "#FFFFFF",
-                textDecoration: "none",
-                padding: "5px 10px",
-                borderRadius: "5px",
-                background: "linear-gradient(to right, #4CAF50, #66BB6A)", // Couleur dégradée pour le lien
-              }}
+              className="text-white px-3 py-2 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600"
             >
-              Create an account
+              Créer un compte
             </a>
           </p>
         </div>

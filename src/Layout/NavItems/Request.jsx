@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import "bootstrap/dist/css/bootstrap.min.css";
 
 const Request = () => {
   const [requests, setRequests] = useState([]);
@@ -20,6 +19,7 @@ const Request = () => {
     const url = user.admin
       ? "https://6761885646efb37323720ccc.mockapi.io/loginStagaires"
       : `https://6761885646efb37323720ccc.mockapi.io/loginStagaires/${user.id}`;
+    
     axios.get(url)
       .then((response) => {
         const result = user.admin
@@ -27,12 +27,9 @@ const Request = () => {
               userData.request.map((req) => ({ ...req, userId: userData.id }))
             )
           : response.data.request;
-
         setRequests(result || []);
       })
-      .catch((err) => {
-        console.error("Erreur lors de la récupération des demandes :", err);
-      });
+      .catch((err) => console.error("Erreur de récupération des demandes :", err));
   };
 
   const handleAddRequest = (e) => {
@@ -67,15 +64,9 @@ const Request = () => {
             setError("");
             fetchRequests();
           })
-          .catch((err) => {
-            console.error("Erreur lors de l'ajout de la demande :", err);
-            setError("Une erreur s'est produite. Veuillez réessayer.");
-          });
+          .catch(() => setError("Une erreur s'est produite. Veuillez réessayer."));
       })
-      .catch((err) => {
-        console.error("Erreur lors de l'ajout de la demande :", err);
-        setError("Une erreur s'est produite. Veuillez réessayer.");
-      });
+      .catch(() => setError("Une erreur s'est produite. Veuillez réessayer."));
   };
 
   const handleStatusUpdate = (reqId, status, userId) => {
@@ -95,118 +86,106 @@ const Request = () => {
             alert(`Demande ${status === "approved" ? "acceptée" : "rejetée"} avec succès !`);
             fetchRequests();
           })
-          .catch((err) => {
-            console.error("Erreur lors de la mise à jour du statut :", err);
-          });
+          .catch((err) => console.error("Erreur de mise à jour :", err));
       })
-      .catch((err) => {
-        console.error("Erreur lors de la mise à jour du statut :", err);
-      });
+      .catch((err) => console.error("Erreur de mise à jour :", err));
   };
 
   return (
-    <div className="container mt-5">
-      <h2 className="mb-4">Gestion des demandes</h2>
+    <div className="container mx-auto mt-10 p-6 max-w-3xl bg-white rounded-lg shadow-lg">
+      <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">
+        Gestion des demandes
+      </h2>
+
       {user?.admin ? (
         <>
-          <h4>Toutes les demandes</h4>
-          {requests.length > 0 ? (
-            <div className="list-group">
-              {requests.map((req) => (
+          <h4 className="text-xl font-semibold text-gray-700 mb-4">Toutes les demandes</h4>
+          <div className="space-y-4">
+            {requests.length > 0 ? (
+              requests.map((req) => (
                 <div
                   key={req.id}
-                  className="list-group-item d-flex justify-content-between align-items-center"
+                  className="bg-gray-100 p-4 rounded-lg shadow-md border-l-4 border-blue-500 flex justify-between items-center"
                 >
                   <div>
-                    <h5>{req.title}</h5>
-                    <p className="mb-1">{req.description}</p>
-                    <small>Utilisateur ID : {req.userId}</small>
-                    <br />
-                    <span className={`badge bg-${req.status === "pending" ? "warning" : req.status === "approved" ? "success" : "danger"}`}>
+                    <h5 className="text-lg font-semibold text-gray-800">{req.title}</h5>
+                    <p className="text-gray-600">{req.description}</p>
+                    <span className={`px-3 py-1 rounded-full text-white text-sm ${
+                      req.status === "pending" ? "bg-yellow-500" :
+                      req.status === "approved" ? "bg-green-500" : "bg-red-500"
+                    }`}>
                       {req.status === "pending" ? "En attente" : req.status === "approved" ? "Acceptée" : "Rejetée"}
                     </span>
                   </div>
                   {req.status === "pending" && (
                     <div>
                       <button
-                        className="btn btn-success btn-sm me-2"
+                        className="bg-green-500 text-white px-3 py-1 rounded-lg hover:bg-green-600 transition"
                         onClick={() => handleStatusUpdate(req.id, "approved", req.userId)}
                       >
-                        Accepter
+                        ✔ Accepter
                       </button>
                       <button
-                        className="btn btn-danger btn-sm"
+                        className="bg-red-500 text-white px-3 py-1 rounded-lg ml-2 hover:bg-red-600 transition"
                         onClick={() => handleStatusUpdate(req.id, "rejected", req.userId)}
                       >
-                        Rejeter
+                        ✖ Rejeter
                       </button>
                     </div>
                   )}
                 </div>
-              ))}
-            </div>
-          ) : (
-            <p>Aucune demande trouvée.</p>
-          )}
+              ))
+            ) : (
+              <p className="text-gray-600">Aucune demande trouvée.</p>
+            )}
+          </div>
         </>
       ) : (
         <>
-          <h4>Ajouter une demande</h4>
-          <form onSubmit={handleAddRequest} className="mb-5">
-            <div className="mb-3">
-              <label htmlFor="title" className="form-label">
-                Titre
-              </label>
-              <input
-                type="text"
-                id="title"
-                className="form-control"
-                placeholder="Titre"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                required
-              />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="description" className="form-label">
-                Description
-              </label>
-              <textarea
-                id="description"
-                className="form-control"
-                placeholder="Description"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                required
-              ></textarea>
-            </div>
-            {error && <div className="text-danger mb-3">{error}</div>}
-            <button type="submit" className="btn btn-primary">
+          <h4 className="text-xl font-semibold text-gray-700 mb-4">Ajouter une demande</h4>
+          <form onSubmit={handleAddRequest} className="mb-6">
+            <input
+              type="text"
+              placeholder="Titre"
+              className="w-full p-2 border rounded-md mb-3"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              required
+            />
+            <textarea
+              placeholder="Description"
+              className="w-full p-2 border rounded-md mb-3"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              required
+            ></textarea>
+            {error && <div className="text-red-500 mb-3">{error}</div>}
+            <button
+              type="submit"
+              className="w-full bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition"
+            >
               Ajouter
             </button>
           </form>
 
-          <h4>Vos demandes</h4>
-          {requests.length > 0 ? (
-            <div className="list-group">
-              {requests.map((req) => (
-                <div
-                  key={req.id}
-                  className="list-group-item d-flex justify-content-between align-items-center"
-                >
-                  <div>
-                    <h5>{req.title}</h5>
-                    <p className="mb-1">{req.description}</p>
-                    <span className={`badge bg-${req.status === "pending" ? "warning" : "success"}`}>
-                      {req.status === "pending" ? "En attente" : "Acceptée"}
-                    </span>
-                  </div>
+          <h4 className="text-xl font-semibold text-gray-700 mb-4">Vos demandes</h4>
+          <div className="space-y-4">
+            {requests.length > 0 ? (
+              requests.map((req) => (
+                <div key={req.id} className="bg-gray-100 p-4 rounded-lg shadow-md">
+                  <h5 className="text-lg font-semibold text-gray-800">{req.title}</h5>
+                  <p className="text-gray-600">{req.description}</p>
+                  <span className={`px-3 py-1 rounded-full text-white text-sm ${
+                    req.status === "pending" ? "bg-yellow-500" : "bg-green-500"
+                  }`}>
+                    {req.status === "pending" ? "En attente" : "Acceptée"}
+                  </span>
                 </div>
-              ))}
-            </div>
-          ) : (
-            <p>Aucune demande trouvée.</p>
-          )}
+              ))
+            ) : (
+              <p className="text-gray-600">Aucune demande trouvée.</p>
+            )}
+          </div>
         </>
       )}
     </div>
