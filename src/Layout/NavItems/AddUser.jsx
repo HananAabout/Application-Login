@@ -10,7 +10,7 @@ const AddUser = () => {
     pseudo: "",
     MotDePasse: "",
     confirmMotDePasse: "",
-    couleur: "#000000", 
+    couleur: "", 
     admin: false,
     pays: "", 
   });
@@ -31,7 +31,7 @@ const AddUser = () => {
       !userData.pseudo ||
       !userData.MotDePasse ||
       !userData.confirmMotDePasse ||
-      !userData.pays // Validation du champ pays
+      !userData.pays 
     ) {
       setMessage("Tous les champs sont obligatoires");
       return;
@@ -66,9 +66,9 @@ const AddUser = () => {
           pseudo: "",
           MotDePasse: "",
           confirmMotDePasse: "",
-          couleur: "#000000",
+          couleur: "",
           admin: false,
-          pays: "", // Réinitialisation du champ pays
+          pays: "", 
         });
       })
       .catch((error) => {
@@ -252,7 +252,7 @@ const AddUser = () => {
             <select
               id="pays"
               className="w-full p-4 mt-1 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              value={userData.pays}
+              value={userData.couleur}
               onChange={(e) =>
                 setUserData({ ...userData, couleur: e.target.value })
               }

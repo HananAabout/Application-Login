@@ -1,4 +1,4 @@
-import { FaFacebook, FaInstagram, FaLinkedin } from "react-icons/fa";
+import { FaFacebook, FaInstagram, FaLinkedin, FaGithub } from "react-icons/fa";
 import useDynamicColor from "../Components/useDynamicColor";
 
 const FooterSection = () => {
@@ -33,6 +33,14 @@ const FooterSection = () => {
           className="text-white hover:text-blue-700 transition"
         >
           <FaLinkedin size={24} />
+        </a>
+        <a
+          href="https://github.com/HananAabout" // Replace with your GitHub URL
+          target="_blank"
+          rel="noreferrer"
+          className="text-white hover:text-gray-500 transition"
+        >
+          <FaGithub size={24} />
         </a>
       </div>
       <hr className="border-gray-500 my-4" />

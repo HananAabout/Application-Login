@@ -27,7 +27,7 @@ const App = () => {
 
         <Route path="/" element={<Login />} />
       
-        <Route path="/create-account" element={<CreateCompte />} />
+        <Route path="/createaccount" element={<CreateCompte />} />
         <Route
           path="/admin"
           element={isAdmin ? <Admin /> : <Navigate to="/request" />}

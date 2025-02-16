@@ -86,7 +86,7 @@ const Login = () => {
             Non inscrit?{" "}
             <a
               href="#"
-              onClick={() => navigate("/create-account")}
+              onClick={() => navigate("/createaccount")}
               className="text-white px-3 py-2 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600"
             >
               Créer un compte

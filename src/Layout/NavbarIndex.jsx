@@ -111,5 +111,4 @@ const NavbarIndex = () => {
     </aside>
   );
 };
-
 export default NavbarIndex;
